@@ -447,3 +447,16 @@ if (document.readyState === 'loading') {
 } else {
     initializeLazyLoading();
 }
+
+function createWhatsAppMessage(name, phone, service, message) {
+    const serviceText = service ? `\n*Service:* ${getServiceName(service)}` : '';
+    
+    return encodeURIComponent(
+        `*Potential Client From Website*\n\n` +
+        `*New Service Request*\n\n` +
+        `*Name:* ${name}\n` +
+        `*Phone:* ${phone}${serviceText}\n\n` +
+        `*Message:*\n${message}\n\n` +
+        `_Sent from Makona Electrical Service website_`
+    );
+}

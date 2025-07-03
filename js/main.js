@@ -3,19 +3,27 @@
  * Professional website functionality
  */
 
-// DOM Elements
-const navbar = document.getElementById('navbar');
-const navToggle = document.getElementById('nav-toggle');
-const navMenu = document.getElementById('nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
-const contactForm = document.getElementById('contact-form');
-
-// Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    initializeNavigation();
-    initializeScrollEffects();
+    // Elements
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const contactForm = document.getElementById('contact-form');
+    const preloader = document.getElementById('preloader');
+
+    // Hide preloader once content is loaded
+    window.addEventListener('load', () => {
+        preloader.classList.add('hidden');
+    });
+
+    // Initialize all functionalities
+    initializeNavigation(navbar, navToggle, navMenu, navLinks);
+    initializeScrollEffects(navbar);
     initializeAnimations();
-    initializeContactForm();
+    if (contactForm) {
+        initializeContactForm(contactForm);
+    }
     
     // Show home page by default
     showPage('home');
@@ -24,53 +32,41 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Navigation functionality
  */
-function initializeNavigation() {
-    // Mobile menu toggle
-    navToggle.addEventListener('click', toggleMobileMenu);
+function initializeNavigation(navbar, navToggle, navMenu, navLinks) {
+    navToggle.addEventListener('click', () => toggleMobileMenu(navMenu, navToggle));
     
-    // Navigation link clicks
     navLinks.forEach(link => {
-        link.addEventListener('click', handleNavClick);
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const page = e.currentTarget.dataset.page;
+            if (page) {
+                showPage(page);
+                updateActiveNavLink(e.currentTarget, navLinks);
+                closeMobileMenu(navMenu, navToggle);
+            }
+        });
     });
     
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', (e) => {
         if (!navbar.contains(e.target) && navMenu.classList.contains('active')) {
-            closeMobileMenu();
+            closeMobileMenu(navMenu, navToggle);
         }
     });
 }
 
-function toggleMobileMenu() {
+function toggleMobileMenu(navMenu, navToggle) {
     navMenu.classList.toggle('active');
-    
-    // Change hamburger icon
     const icon = navToggle.querySelector('i');
-    if (navMenu.classList.contains('active')) {
-        icon.className = 'ph ph-x';
-    } else {
-        icon.className = 'ph ph-list';
-    }
+    icon.className = navMenu.classList.contains('active') ? 'ph ph-x' : 'ph ph-list';
 }
 
-function closeMobileMenu() {
+function closeMobileMenu(navMenu, navToggle) {
     navMenu.classList.remove('active');
     const icon = navToggle.querySelector('i');
     icon.className = 'ph ph-list';
 }
 
-function handleNavClick(e) {
-    e.preventDefault();
-    const page = e.currentTarget.dataset.page;
-    
-    if (page) {
-        showPage(page);
-        updateActiveNavLink(e.currentTarget);
-        closeMobileMenu();
-    }
-}
-
-function updateActiveNavLink(activeLink) {
+function updateActiveNavLink(activeLink, navLinks) {
     navLinks.forEach(link => link.classList.remove('active'));
     activeLink.classList.add('active');
 }
@@ -79,29 +75,17 @@ function updateActiveNavLink(activeLink) {
  * Page navigation
  */
 function showPage(pageId) {
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
+    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     
-    // Show requested page
     const targetPage = document.getElementById(pageId);
     if (targetPage) {
         targetPage.classList.add('active');
-        
-        // Update navigation
-        const navLink = document.querySelector(`[data-page="${pageId}"]`);
+        const navLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
         if (navLink) {
-            updateActiveNavLink(navLink);
+            updateActiveNavLink(navLink, document.querySelectorAll('.nav-link'));
         }
         
-        // Scroll to top
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-        
-        // Trigger animations for the new page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         triggerPageAnimations(pageId);
     }
 }
@@ -109,35 +93,14 @@ function showPage(pageId) {
 /**
  * Scroll effects
  */
-function initializeScrollEffects() {
-    let ticking = false;
-    
-    window.addEventListener('scroll', function() {
-        if (!ticking) {
-            requestAnimationFrame(handleScroll);
-            ticking = true;
+function initializeScrollEffects(navbar) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
         }
-    });
-}
-
-function handleScroll() {
-    const scrollY = window.scrollY;
-    
-    // Navbar scroll effect
-    if (scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-    
-    // Parallax effect for hero section
-    const hero = document.querySelector('.hero');
-    if (hero && scrollY < window.innerHeight) {
-        const parallaxSpeed = 0.5;
-        hero.style.transform = `translateY(${scrollY * parallaxSpeed}px)`;
-    }
-    
-    ticking = false;
+    }, { passive: true });
 }
 
 /**
@@ -146,7 +109,8 @@ function handleScroll() {
 function scrollToServices() {
     const servicesSection = document.getElementById('services');
     if (servicesSection) {
-        const offsetTop = servicesSection.offsetTop - 100; // Account for fixed navbar
+        const navbarHeight = document.getElementById('navbar').offsetHeight;
+        const offsetTop = servicesSection.offsetTop - navbarHeight;
         
         window.scrollTo({
             top: offsetTop,
@@ -159,229 +123,150 @@ function scrollToServices() {
  * Animation system
  */
 function initializeAnimations() {
-    // Initialize intersection observer for scroll animations
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
     
-    const observer = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('aos-animate');
+                observer.unobserve(entry.target); 
             }
         });
     }, observerOptions);
     
-    // Observe all elements with data-aos attribute
     document.querySelectorAll('[data-aos]').forEach(el => {
         observer.observe(el);
     });
     
-    // Initialize floating icons animation
     initializeFloatingIcons();
 }
 
 function initializeFloatingIcons() {
-    const floatingIcons = document.querySelectorAll('.floating-icon');
-    
-    floatingIcons.forEach((icon, index) => {
-        // Add random delay to make animation more natural
+    document.querySelectorAll('.floating-icon').forEach(icon => {
         const randomDelay = Math.random() * 2;
         icon.style.animationDelay = `${randomDelay}s`;
-        
-        // Add slight rotation animation on hover
-        icon.addEventListener('mouseenter', function() {
-            this.style.transform += ' rotate(15deg)';
-        });
-        
-        icon.addEventListener('mouseleave', function() {
-            this.style.transform = this.style.transform.replace(' rotate(15deg)', '');
-        });
     });
 }
 
 function triggerPageAnimations(pageId) {
-    // Reset all animations
-    document.querySelectorAll('[data-aos]').forEach(el => {
+    const pageElements = document.querySelectorAll(`#${pageId} [data-aos]`);
+    pageElements.forEach(el => {
         el.classList.remove('aos-animate');
+        // Re-observe to trigger animation again if needed
+        const observer = new IntersectionObserver(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('aos-animate');
+                observer.unobserve(entry.target);
+            }
+        }, { threshold: 0.1 });
+        observer.observe(el);
     });
-    
-    // Trigger animations with delay for the active page
-    setTimeout(() => {
-        const pageElements = document.querySelectorAll(`#${pageId} [data-aos]`);
-        pageElements.forEach((el, index) => {
-            setTimeout(() => {
-                el.classList.add('aos-animate');
-            }, index * 100);
-        });
-    }, 100);
 }
 
 /**
  * Contact form functionality
  */
-function initializeContactForm() {
-    if (contactForm) {
-        contactForm.addEventListener('submit', handleFormSubmit);
-        
-        // Auto-format phone number
-        const phoneInput = document.getElementById('phone');
-        if (phoneInput) {
-            phoneInput.addEventListener('input', formatPhoneNumber);
-        }
+function initializeContactForm(contactForm) {
+    contactForm.addEventListener('submit', handleFormSubmit);
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', formatPhoneNumber);
     }
 }
 
 function handleFormSubmit(e) {
     e.preventDefault();
     
-    // Get form data
-    const formData = new FormData(contactForm);
+    const formData = new FormData(e.target);
     const name = formData.get('name');
     const phone = formData.get('phone');
     const service = formData.get('service');
     const message = formData.get('message');
     
-    // Validate form
     if (!validateForm(name, phone, message)) {
         return;
     }
     
-    // Create WhatsApp message
     const whatsappMessage = createWhatsAppMessage(name, phone, service, message);
-    
-    // Send via WhatsApp
-    sendWhatsAppMessage(whatsappMessage);
+    sendWhatsAppMessage(whatsappMessage, e.target);
 }
 
 function validateForm(name, phone, message) {
     if (!name.trim()) {
-        showFormError('Please enter your full name');
+        showFormAlert('Please enter your full name', 'error');
         return false;
     }
-    
-    if (!phone.trim()) {
-        showFormError('Please enter your phone number');
-        return false;
-    }
-    
-    if (!message.trim()) {
-        showFormError('Please describe your service requirement');
-        return false;
-    }
-    
-    // Validate phone number format (South African)
-    const phoneRegex = /^(\+27|0)[6-8][0-9]{8}$/;
     const cleanPhone = phone.replace(/\s+/g, '');
-    
+    const phoneRegex = /^(?:\+27|0)[6-8][0-9]{8}$/;
     if (!phoneRegex.test(cleanPhone)) {
-        showFormError('Please enter a valid South African phone number');
+        showFormAlert('Please enter a valid South African phone number', 'error');
         return false;
     }
-    
+    if (!message.trim()) {
+        showFormAlert('Please describe your service requirement', 'error');
+        return false;
+    }
     return true;
 }
 
 function formatPhoneNumber(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    
-    // Format as South African number
-    if (value.length >= 10) {
-        if (value.startsWith('27')) {
-            value = '+' + value.substring(0, 2) + ' ' + value.substring(2, 5) + ' ' + value.substring(5, 8) + ' ' + value.substring(8, 12);
-        } else if (value.startsWith('0')) {
-            value = value.substring(0, 3) + ' ' + value.substring(3, 6) + ' ' + value.substring(6, 10);
-        }
+    let input = e.target.value.replace(/\D/g, '');
+    if (input.startsWith('27') && input.length > 2) {
+        input = `+${input.substring(0,2)} ${input.substring(2)}`;
+    } else if (input.startsWith('0') && input.length > 0) {
+        // Standard formatting can be applied here if desired
     }
-    
-    e.target.value = value;
+    e.target.value = input;
 }
 
 function createWhatsAppMessage(name, phone, service, message) {
     const serviceText = service ? `\n*Service:* ${getServiceName(service)}` : '';
-    
     return encodeURIComponent(
+        `*Potential Client From Website*\n\n` +
         `*New Service Request*\n\n` +
         `*Name:* ${name}\n` +
         `*Phone:* ${phone}${serviceText}\n\n` +
         `*Message:*\n${message}\n\n` +
-        `_Sent from Makona Electrical Service website_`
+        `_Sent from the Makona Electrical Service website._`
     );
 }
 
 function getServiceName(serviceValue) {
     const services = {
-        'stoves': 'Stoves & Ovens',
-        'fridges': 'Refrigeration',
-        'geysers': 'Geyser Systems',
-        'washing': 'Washing Machines',
-        'aircon': 'Air Conditioning',
-        'wiring': 'Electrical Wiring',
-        'emergency': 'Emergency Repair',
-        'other': 'Other Service'
+        'stoves': 'Stoves & Ovens', 'fridges': 'Refrigeration',
+        'geysers': 'Geyser Systems', 'washing': 'Washing Machines',
+        'aircon': 'Air Conditioning', 'wiring': 'Electrical Wiring',
+        'emergency': 'Emergency Repair', 'other': 'Other Service'
     };
-    
     return services[serviceValue] || serviceValue;
 }
 
-function sendWhatsAppMessage(message) {
-    // Primary WhatsApp number
+function sendWhatsAppMessage(message, form) {
     const primaryPhone = '27792525627';
     const whatsappUrl = `https://wa.me/${primaryPhone}?text=${message}`;
     
-    // Show success message
-    showFormSuccess();
-    
-    // Open WhatsApp
+    showFormAlert('Redirecting to WhatsApp...', 'success');
     window.open(whatsappUrl, '_blank');
     
-    // Reset form after short delay
     setTimeout(() => {
-        contactForm.reset();
+        form.reset();
     }, 1000);
 }
 
-function showFormError(message) {
-    // Remove existing alerts
+function showFormAlert(message, type) {
     removeFormAlerts();
-    
-    // Create error alert
     const alert = document.createElement('div');
-    alert.className = 'form-alert error';
-    alert.innerHTML = `
-        <i class="ph ph-warning-circle"></i>
-        <span>${message}</span>
-    `;
+    alert.className = `form-alert ${type}`;
+    const iconClass = type === 'success' ? 'ph-check-circle' : 'ph-warning-circle';
+    alert.innerHTML = `<i class="ph ${iconClass}"></i><span>${message}</span>`;
     
-    // Insert before form
-    contactForm.parentNode.insertBefore(alert, contactForm);
+    const formContainer = document.querySelector('.contact-form-container');
+    formContainer.insertBefore(alert, formContainer.firstChild);
     
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        alert.remove();
-    }, 5000);
-}
-
-function showFormSuccess() {
-    // Remove existing alerts
-    removeFormAlerts();
-    
-    // Create success alert
-    const alert = document.createElement('div');
-    alert.className = 'form-alert success';
-    alert.innerHTML = `
-        <i class="ph ph-check-circle"></i>
-        <span>Message sent! Redirecting to WhatsApp...</span>
-    `;
-    
-    // Insert before form
-    contactForm.parentNode.insertBefore(alert, contactForm);
-    
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        alert.remove();
-    }, 3000);
+    setTimeout(removeFormAlerts, 5000);
 }
 
 function removeFormAlerts() {
@@ -389,74 +274,6 @@ function removeFormAlerts() {
     alerts.forEach(alert => alert.remove());
 }
 
-/**
- * Utility functions
- */
-function throttle(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
 // Global functions (called from HTML)
 window.showPage = showPage;
 window.scrollToServices = scrollToServices;
-
-/**
- * Performance optimizations
- */
-// Lazy load images when they come into view
-function initializeLazyLoading() {
-    const images = document.querySelectorAll('img[data-src]');
-    
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.classList.remove('lazy');
-                observer.unobserve(img);
-            }
-        });
-    });
-    
-    images.forEach(img => imageObserver.observe(img));
-}
-
-// Initialize lazy loading when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeLazyLoading);
-} else {
-    initializeLazyLoading();
-}
-
-function createWhatsAppMessage(name, phone, service, message) {
-    const serviceText = service ? `\n*Service:* ${getServiceName(service)}` : '';
-    
-    return encodeURIComponent(
-        `*Potential Client From Website*\n\n` +
-        `*New Service Request*\n\n` +
-        `*Name:* ${name}\n` +
-        `*Phone:* ${phone}${serviceText}\n\n` +
-        `*Message:*\n${message}\n\n` +
-        `_Sent from Makona Electrical Service website_`
-    );
-}

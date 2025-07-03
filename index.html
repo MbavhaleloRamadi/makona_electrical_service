@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- SEO Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Makona Electrical Service - Professional appliance repairs, electrical installations, and maintenance services. Expert repairs for stoves, fridges, geysers, washing machines, air conditioning & house wiring.">
-    <meta name="keywords" content="electrical service, appliance repair, stove repair, fridge repair, geyser installation, washing machine repair, air conditioning service, house wiring, electrical contractor">
+    <title>Makona Electrical | Johannesburg Fridge & Aircon Repair</title>
+    <meta name="description" content="Makona Electrical Service offers expert, 24/7 mobile appliance repair in Johannesburg. We specialize in fridges, air conditioners, stoves, and geysers. Call Sedzani for a free quote!">
+    <meta name="keywords" content="fridge repair Johannesburg, air conditioner repair Johannesburg, mobile appliance repair, emergency electrician, stove repair, geyser installation, washing machine service, commercial refrigeration Johannesburg, Makona Electrical">
     <meta name="author" content="Makona Electrical Service">
     <meta name="robots" content="index, follow">
     
-    <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Makona Electrical Service - Professional Appliance Repairs">
-    <meta property="og:description" content="Expert electrical and appliance repair services. Contact Sedzani for professional repairs of stoves, fridges, geysers, washing machines & more.">
+    <meta property="og:title" content="Makona Electrical Service - Johannesburg Appliance Repair Experts">
+    <meta property="og:description" content="Fast, reliable, and mobile repairs for fridges, aircons, stoves, and more in Johannesburg. Over 10 years of trusted service.">
     <meta property="og:url" content="https://makonaelectrical.com">
     <meta property="og:site_name" content="Makona Electrical Service">
     
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Makona Electrical Service - Professional Appliance Repairs">
-    <meta name="twitter:description" content="Expert electrical and appliance repair services. Contact Sedzani for professional repairs.">
+    <meta name="twitter:title" content="Makona Electrical Service - Johannesburg Appliance Repair Experts">
+    <meta name="twitter:description" content="Your trusted partner for mobile appliance and electrical repairs in Johannesburg. Specializing in fridges and air conditioners.">
     
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://makonaelectrical.com">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 
-        <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
-    <title>Makona Electrical Service | Professional Appliance Repairs & Electrical Services</title>
-
-    
-    <!-- Preload Critical Resources -->
     <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
     
 </head>
 
 <body>
-    <!-- Navigation -->
+    <div class="preloader" id="preloader">
+        <div class="plug-loader">
+            <div class="plug"></div>
+            <div class="socket"></div>
+            <div class="sparks">
+                <div class="spark"></div>
+                <div class="spark"></div>
+            </div>
+        </div>
+    </div>
+
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-brand">
@@ -69,23 +70,20 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Home Page -->
         <section id="home" class="page active">
-            <!-- Hero Section -->
             <div class="hero">
                 <div class="hero-content">
                     <div class="hero-text">
                         <h1 class="hero-title">
-                            <span class="title-line">Professional</span>
-                            <span class="title-line">Electrical Services</span>
+                            <span class="title-line">Your Trusted Mobile</span>
+                            <span class="title-line">Appliance & Electrical Expert</span>
                         </h1>
-                        <p class="hero-description">Expert appliance repairs and electrical installations with over a decade of trusted service excellence.</p>
+                        <p class="hero-description">Expert repairs for fridges, aircons, stoves, and more, right at your doorstep in Johannesburg. Over a decade of trusted service excellence.</p>
                         <div class="hero-buttons">
                             <button class="btn btn-primary" onclick="showPage('contact')">
                                 <i class="ph ph-phone-call" aria-hidden="true"></i>
-                                Get Free Quote
+                                Get a Free Quote
                             </button>
                             <button class="btn btn-secondary" onclick="scrollToServices()">
                                 <i class="ph ph-arrow-down" aria-hidden="true"></i>
@@ -96,31 +94,78 @@
                     <div class="hero-visual">
                         <div class="floating-icons">
                             <div class="floating-icon" style="--delay: 0s">
-                                <i class="ph ph-lightning" aria-hidden="true"></i>
+                                <i class="ph ph-snowflake" aria-hidden="true"></i>
                             </div>
                             <div class="floating-icon" style="--delay: 0.5s">
-                                <i class="ph ph-gear" aria-hidden="true"></i>
+                                <i class="ph ph-wind" aria-hidden="true"></i>
                             </div>
                             <div class="floating-icon" style="--delay: 1s">
                                 <i class="ph ph-wrench" aria-hidden="true"></i>
                             </div>
                             <div class="floating-icon" style="--delay: 1.5s">
-                                <i class="ph ph-hammer" aria-hidden="true"></i>
+                                <i class="ph ph-lightning" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <section class="info-section">
+                <div class="section-header" data-aos="fade-up">
+                    <h2 class="section-title">Why Choose Makona Electrical?</h2>
+                    <p class="section-subtitle">We are committed to providing reliable, efficient, and affordable service.</p>
+                </div>
+                <div class="info-grid">
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="100">
+                        <i class="ph-seal-check"></i>
+                        <h3>10+ Years of Experience</h3>
+                        <p>Our extensive experience means we can quickly diagnose and fix any issue, saving you time and money.</p>
+                    </div>
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="200">
+                        <i class="ph-map-pin-line"></i>
+                        <h3>Mobile Service in Joburg</h3>
+                        <p>We come to you! Our mobile repair service covers all of Johannesburg and surrounding areas.</p>
+                    </div>
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="300">
+                        <i class="ph-clock-countdown"></i>
+                        <h3>24/7 Emergency Support</h3>
+                        <p>Appliance emergencies don't wait. We're available around the clock for urgent repairs.</p>
+                    </div>
+                </div>
+            </section>
 
-            <!-- Services Section -->
             <section class="services-section" id="services">
-                <div class="section-header">
+                <div class="section-header" data-aos="fade-up">
                     <h2 class="section-title">Our Expertise</h2>
-                    <p class="section-subtitle">Comprehensive electrical and appliance services for residential and commercial needs</p>
+                    <p class="section-subtitle">Comprehensive electrical and appliance services for residential and commercial needs.</p>
                 </div>
                 
                 <div class="services-grid">
                     <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-icon">
+                            <i class="ph ph-snowflake" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="service-title">Refrigeration & Fridge Repair</h3>
+                        <p class="service-description">Specialists in all fridge types, from domestic to commercial units. We handle gas refills, compressor issues, and mobile fridge repairs.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">Gas Refills</span>
+                            <span class="feature-tag">Mobile Service</span>
+                            <span class="feature-tag">Commercial & Domestic</span>
+                        </div>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-icon">
+                            <i class="ph ph-wind" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="service-title">Air Conditioning</h3>
+                        <p class="service-description">Full HVAC services including AC installation, maintenance, repairs, and gas recharge for optimal climate control at home or your business.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">Installation</span>
+                            <span class="feature-tag">Maintenance Plans</span>
+                            <span class="feature-tag">Gas Recharge</span>
+                        </div>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="service-icon">
                             <i class="ph ph-fire" aria-hidden="true"></i>
                         </div>
@@ -131,20 +176,7 @@
                             <span class="feature-tag">Parts Warranty</span>
                         </div>
                     </div>
-
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="service-icon">
-                            <i class="ph ph-snowflake" aria-hidden="true"></i>
-                        </div>
-                        <h3 class="service-title">Refrigeration</h3>
-                        <p class="service-description">Complete refrigeration services including mobile fridges, commercial units, and freezer repairs with gas refills.</p>
-                        <div class="service-features">
-                            <span class="feature-tag">Gas Refills</span>
-                            <span class="feature-tag">Mobile Service</span>
-                        </div>
-                    </div>
-
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="400">
                         <div class="service-icon">
                             <i class="ph ph-drop" aria-hidden="true"></i>
                         </div>
@@ -152,34 +184,20 @@
                         <p class="service-description">Professional geyser installation, maintenance, and repair services for optimal hot water supply and energy efficiency.</p>
                         <div class="service-features">
                             <span class="feature-tag">Energy Efficient</span>
-                            <span class="feature-tag">Installation</span>
+                            <span class="feature-tag">New Installations</span>
                         </div>
                     </div>
-
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="500">
                         <div class="service-icon">
                             <i class="ph ph-washing-machine" aria-hidden="true"></i>
                         </div>
                         <h3 class="service-title">Washing Machines</h3>
-                        <p class="service-description">Comprehensive washing machine repairs including drum replacement, motor servicing, and electrical fault diagnosis.</p>
+                        <p class="service-description">Comprehensive washing machine repairs including drum replacement, motor servicing, and electrical fault diagnosis for all major brands.</p>
                         <div class="service-features">
                             <span class="feature-tag">All Brands</span>
                             <span class="feature-tag">Quick Repair</span>
                         </div>
                     </div>
-
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="500">
-                        <div class="service-icon">
-                            <i class="ph ph-wind" aria-hidden="true"></i>
-                        </div>
-                        <h3 class="service-title">Air Conditioning</h3>
-                        <p class="service-description">Full HVAC services including AC installation, maintenance, repairs, and gas recharge for optimal climate control.</p>
-                        <div class="service-features">
-                            <span class="feature-tag">Installation</span>
-                            <span class="feature-tag">Maintenance</span>
-                        </div>
-                    </div>
-
                     <div class="service-card" data-aos="fade-up" data-aos-delay="600">
                         <div class="service-icon">
                             <i class="ph ph-house-line" aria-hidden="true"></i>
@@ -193,9 +211,32 @@
                     </div>
                 </div>
             </section>
+
+             <section class="info-section">
+                <div class="section-header" data-aos="fade-up">
+                    <h2 class="section-title">Our Simple 3-Step Process</h2>
+                    <p class="section-subtitle">Getting your appliances fixed has never been easier.</p>
+                </div>
+                <div class="info-grid">
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="100">
+                        <i class="ph-phone-call"></i>
+                        <h3>1. Get in Touch</h3>
+                        <p>Call us or fill out the contact form with details of your issue. We'll provide a preliminary consultation and a free quote.</p>
+                    </div>
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="200">
+                        <i class="ph-magnifying-glass"></i>
+                        <h3>2. Diagnosis & Repair</h3>
+                        <p>Our mobile team arrives, diagnoses the problem with precision tools, and explains the required repairs before starting any work.</p>
+                    </div>
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="300">
+                        <i class="ph-thumbs-up"></i>
+                        <h3>3. Job Done</h3>
+                        <p>We complete the repair efficiently, test the appliance to ensure it's working perfectly, and leave your space clean.</p>
+                    </div>
+                </div>
+            </section>
         </section>
 
-        <!-- Contact Page -->
         <section id="contact" class="page">
             <div class="contact-hero">
                 <h1 class="page-title">Get In Touch</h1>
@@ -248,8 +289,8 @@
                 <div class="contact-form-container" data-aos="fade-left" data-aos-delay="200">
                     <form class="contact-form" id="contact-form">
                         <div class="form-header">
-                            <h3>Send Message</h3>
-                            <p>Get a quick response via WhatsApp</p>
+                            <h3>Send a Quick Message</h3>
+                            <p>Get a fast response via WhatsApp</p>
                         </div>
 
                         <div class="form-group">
@@ -275,11 +316,11 @@
                             </label>
                             <select id="service" name="service">
                                 <option value="">Select a service</option>
-                                <option value="stoves">Stoves & Ovens</option>
                                 <option value="fridges">Refrigeration</option>
+                                <option value="aircon">Air Conditioning</option>
+                                <option value="stoves">Stoves & Ovens</option>
                                 <option value="geysers">Geyser Systems</option>
                                 <option value="washing">Washing Machines</option>
-                                <option value="aircon">Air Conditioning</option>
                                 <option value="wiring">Electrical Wiring</option>
                                 <option value="emergency">Emergency Repair</option>
                                 <option value="other">Other</option>
@@ -304,14 +345,13 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
                 <i class="ph ph-lightning" aria-hidden="true"></i>
                 <span>MAKONA</span>
             </div>
-            <p class="footer-text">Professional electrical services you can trust</p>
+            <p class="footer-text">Your trusted partner for appliance and electrical repairs in Johannesburg.</p>
             <div class="footer-links">
                 <a href="tel:+27792525627" class="footer-link">
                     <i class="ph ph-phone" aria-hidden="true"></i>
@@ -328,7 +368,6 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
     <script src="js/main.js"></script>
 </body>
 </html>

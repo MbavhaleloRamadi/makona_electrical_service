@@ -74,6 +74,92 @@
     --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Preloader Styles */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gray-900);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.plug-loader {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plug, .socket {
+    position: absolute;
+    background: var(--gray-400);
+}
+
+.plug {
+    width: 20px;
+    height: 40px;
+    border-radius: 5px;
+    animation: plug-in 1.5s ease-in-out infinite;
+}
+
+.plug::before, .plug::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 15px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    top: -15px;
+}
+
+.plug::before { left: 0; }
+.plug::after { right: 0; }
+
+.socket {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gray-800);
+}
+
+.socket::before, .socket::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 15px;
+    background: var(--gray-900);
+    top: 50%;
+    transform: translateY(-50%);
+}
+.socket::before { left: 10px; }
+.socket::after { right: 10px; }
+
+
+@keyframes plug-in {
+    0%, 100% {
+        transform: translateY(20px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    60% {
+        transform: translateY(0);
+    }
+}
+
 /* Reset & Base Styles */
 * {
     box-sizing: border-box;
@@ -90,10 +176,24 @@ body {
     font-size: var(--font-size-base);
     line-height: 1.6;
     color: var(--gray-700);
-    background: linear-gradient(135deg, var(--gray-50) 0%, #e0e7ff 100%);
+    background-color: var(--gray-900); /* Fallback */
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+        radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+    animation: Ditan-stars 200s linear infinite;
     min-height: 100vh;
     overflow-x: hidden;
 }
+
+@keyframes Ditan-stars {
+    from { background-position: 0 0, 40px 60px, 130px 270px, 70px 100px; }
+    to { background-position: -10000px 5000px, -10000px 5000px, -10000px 5000px, -10000px 5000px; }
+}
+
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
@@ -126,7 +226,7 @@ a:hover {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.8);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--gray-200);
@@ -135,7 +235,7 @@ a:hover {
 }
 
 .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(255, 255, 255, 0.95);
     box-shadow: var(--shadow-lg);
 }
 
@@ -196,6 +296,7 @@ a:hover {
 /* Main Content */
 .main-content {
     margin-top: 80px;
+    background: var(--bg-secondary);
 }
 
 .page {
@@ -213,20 +314,9 @@ a:hover {
     display: flex;
     align-items: center;
     padding: var(--space-20) var(--space-6);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: transparent; /* Use body's animated background */
     position: relative;
     overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.1;
 }
 
 .hero-content {
@@ -246,6 +336,7 @@ a:hover {
     color: white;
     margin-bottom: var(--space-6);
     line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .title-line {
@@ -257,8 +348,8 @@ a:hover {
     animation-delay: 0.2s;
     background: linear-gradient(45deg, #fbbf24, #f59e0b);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-description {
@@ -266,6 +357,7 @@ a:hover {
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: var(--space-8);
     animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.3);
 }
 
 .hero-buttons {
@@ -328,7 +420,7 @@ a:hover {
 
 .btn-primary {
     background: var(--accent-color);
-    color: white;
+    color: var(--gray-900);
     box-shadow: var(--shadow-lg);
 }
 
@@ -356,10 +448,47 @@ a:hover {
     justify-content: center;
 }
 
+/* New Info Section Styles */
+.info-section {
+    padding: var(--space-20) var(--space-6);
+    background: var(--bg-primary);
+}
+
+.info-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-8);
+}
+
+.info-card {
+    text-align: center;
+    padding: var(--space-8);
+}
+
+.info-card i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: var(--space-4);
+    display: inline-block;
+}
+
+.info-card h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-3);
+    color: var(--gray-800);
+}
+
+.info-card p {
+    color: var(--gray-600);
+    line-height: 1.7;
+}
+
 /* Services Section */
 .services-section {
     padding: var(--space-20) var(--space-6);
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
 }
 
 .section-header {
@@ -376,7 +505,7 @@ a:hover {
 .section-subtitle {
     font-size: var(--font-size-xl);
     color: var(--gray-600);
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
 }
 
@@ -395,6 +524,8 @@ a:hover {
     box-shadow: var(--shadow-md);
     transition: var(--transition);
     border: 1px solid var(--gray-200);
+    display: flex;
+    flex-direction: column;
 }
 
 .service-card:hover {
@@ -428,12 +559,14 @@ a:hover {
     color: var(--gray-600);
     margin-bottom: var(--space-6);
     line-height: 1.7;
+    flex-grow: 1;
 }
 
 .service-features {
     display: flex;
     gap: var(--space-2);
     flex-wrap: wrap;
+    margin-top: auto;
 }
 
 .feature-tag {
@@ -473,6 +606,7 @@ a:hover {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-16);
     align-items: start;
+    background: var(--bg-primary);
 }
 
 .contact-info {
@@ -543,7 +677,7 @@ a:hover {
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-lg);
     position: sticky;
-    top: 100px;
+    top: 120px;
 }
 
 .form-header {
@@ -584,7 +718,10 @@ a:hover {
     border-radius: var(--radius-lg);
     font-size: var(--font-size-base);
     transition: var(--transition-fast);
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .form-group input:focus,
@@ -624,12 +761,6 @@ a:hover {
     color: var(--success-color);
 }
 
-.form-alert.info {
-    background: rgba(37, 99, 235, 0.1);
-    border: 1px solid rgba(37, 99, 235, 0.3);
-    color: var(--primary-color);
-}
-
 .form-alert i {
     font-size: var(--font-size-lg);
     flex-shrink: 0;
@@ -645,8 +776,6 @@ a:hover {
         transform: translateY(0);
     }
 }
-
-/* Footer */
 
 /* Footer */
 .footer {
@@ -679,6 +808,9 @@ a:hover {
 .footer-text {
     color: var(--gray-400);
     margin-bottom: var(--space-6);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .footer-links {
@@ -686,6 +818,7 @@ a:hover {
     justify-content: center;
     gap: var(--space-8);
     margin-bottom: var(--space-8);
+    flex-wrap: wrap;
 }
 
 .footer-link {
@@ -742,35 +875,26 @@ a:hover {
 /* AOS Animation Support */
 [data-aos] {
     opacity: 0;
-    transition: all 0.6s ease;
+    transition-property: transform, opacity;
+    transition-duration: 0.6s;
+    transition-timing-function: ease-in-out;
 }
 
 [data-aos].aos-animate {
     opacity: 1;
+    transform: none;
 }
 
 [data-aos="fade-up"] {
-    transform: translateY(30px);
-}
-
-[data-aos="fade-up"].aos-animate {
-    transform: translateY(0);
+    transform: translateY(40px);
 }
 
 [data-aos="fade-right"] {
-    transform: translateX(-30px);
-}
-
-[data-aos="fade-right"].aos-animate {
-    transform: translateX(0);
+    transform: translateX(-40px);
 }
 
 [data-aos="fade-left"] {
-    transform: translateX(30px);
-}
-
-[data-aos="fade-left"].aos-animate {
-    transform: translateX(0);
+    transform: translateX(40px);
 }
 
 /* Responsive Design */
@@ -781,6 +905,14 @@ a:hover {
         text-align: center;
     }
     
+    .hero-text {
+        order: 2;
+    }
+
+    .hero-visual {
+        order: 1;
+    }
+    
     .contact-content {
         grid-template-columns: 1fr;
         gap: var(--space-12);
@@ -788,6 +920,7 @@ a:hover {
     
     .contact-form-container {
         position: static;
+        top: auto;
     }
 }
 
@@ -804,7 +937,7 @@ a:hover {
         align-items: center;
         padding: var(--space-8);
         gap: var(--space-4);
-        transition: var(--transition);
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: var(--shadow-lg);
     }
     
@@ -829,6 +962,7 @@ a:hover {
     
     .btn {
         width: 100%;
+        max-width: 300px;
         justify-content: center;
     }
     
@@ -852,22 +986,30 @@ a:hover {
         flex-direction: column;
         gap: var(--space-4);
     }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
+    h1 { font-size: var(--font-size-4xl); }
+    h2 { font-size: var(--font-size-3xl); }
+    
     .nav-container {
         padding: 0 var(--space-4);
     }
     
     .hero,
     .services-section,
-    .contact-content {
+    .contact-content,
+    .info-section {
         padding-left: var(--space-4);
         padding-right: var(--space-4);
     }
     
     .hero-title {
-        font-size: clamp(2rem, 8vw, 3rem);
+        font-size: clamp(2.2rem, 8vw, 3rem);
     }
     
     .section-title {
@@ -884,4 +1026,3 @@ a:hover {
         padding: var(--space-6);
     }
 }
-

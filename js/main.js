@@ -25,9 +25,52 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeContactForm(contactForm);
     }
     
+    // NEW: Create the dynamic hero background
+    createHeroBackgroundIcons();
+
     // Show home page by default
     showPage('home');
 });
+
+/**
+ * NEW: Creates the moving icon wallpaper in the hero section
+ */
+function createHeroBackgroundIcons() {
+    const container = document.getElementById('hero-background');
+    if (!container) return;
+
+    const icons = [
+        'ph-lightning', 'ph-wrench', 'ph-snowflake', 'ph-wind', 'ph-fire', 
+        'ph-drop', 'ph-washing-machine', 'ph-gear', 'ph-hammer', 'ph-plug'
+    ];
+    const iconCount = 30; // Number of icons to generate
+
+    for (let i = 0; i < iconCount; i++) {
+        const iconEl = document.createElement('div');
+        iconEl.classList.add('bg-icon');
+
+        const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+        iconEl.innerHTML = `<i class="ph ${randomIcon}"></i>`;
+
+        const size = Math.random() * 60 + 20; // Random size between 20px and 80px
+        iconEl.style.fontSize = `${size}px`;
+        iconEl.style.top = `${Math.random() * 100}%`;
+        iconEl.style.left = `${Math.random() * 100}%`;
+        
+        // Set random properties for the animation
+        iconEl.style.setProperty('--tx-start', `${(Math.random() - 0.5) * 20}vw`);
+        iconEl.style.setProperty('--ty-start', `${(Math.random() - 0.5) * 20}vh`);
+        iconEl.style.setProperty('--tx-end', `${(Math.random() - 0.5) * 20}vw`);
+        iconEl.style.setProperty('--ty-end', `${(Math.random() - 0.5) * 20}vh`);
+        iconEl.style.setProperty('--r-start', `${Math.random() * 360}deg`);
+        iconEl.style.setProperty('--r-end', `${Math.random() * 360}deg`);
+        iconEl.style.animationDuration = `${Math.random() * 20 + 15}s`; // Duration between 15s and 35s
+        iconEl.style.animationDelay = `-${Math.random() * 10}s`; // Start at a random point in the animation
+
+        container.appendChild(iconEl);
+    }
+}
+
 
 /**
  * Navigation functionality
@@ -139,15 +182,6 @@ function initializeAnimations() {
     
     document.querySelectorAll('[data-aos]').forEach(el => {
         observer.observe(el);
-    });
-    
-    initializeFloatingIcons();
-}
-
-function initializeFloatingIcons() {
-    document.querySelectorAll('.floating-icon').forEach(icon => {
-        const randomDelay = Math.random() * 2;
-        icon.style.animationDelay = `${randomDelay}s`;
     });
 }
 

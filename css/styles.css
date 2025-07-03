@@ -1,15 +1,15 @@
 /* ==========================================================================
-   MAKONA ELECTRICAL SERVICE - PROFESSIONAL STYLES
+   MAKONA ELECTRICAL SERVICE - PROFESSIONAL STYLES (REVAMPED COLOR SCHEME)
    ========================================================================== */
 
 /* CSS Variables */
 :root {
-    /* Colors */
-    --primary-color: #2563eb;
-    --primary-light: #3b82f6;
-    --primary-dark: #1d4ed8;
-    --secondary-color: #0891b2;
-    --accent-color: #f59e0b;
+    /* NEW: Teal, Amber, and Gray Color Palette */
+    --primary-color: #0d9488;     /* Teal 600 */
+    --primary-light: #14b8a6;    /* Teal 500 */
+    --primary-dark: #0f766e;      /* Teal 700 */
+    --secondary-color: #0891b2;  /* Cyan - Kept for potential secondary elements */
+    --accent-color: #f59e0b;      /* Amber 500 */
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --error-color: #ef4444;
@@ -120,7 +120,7 @@
     position: absolute;
     width: 8px;
     height: 15px;
-    background: var(--primary-color);
+    background: var(--primary-color); /* Updated to Teal */
     border-radius: 2px;
     top: -15px;
 }
@@ -176,24 +176,10 @@ body {
     font-size: var(--font-size-base);
     line-height: 1.6;
     color: var(--gray-700);
-    background-color: var(--gray-900); /* Fallback */
-    background-image: 
-        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
-        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
-        radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
-    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
-    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
-    animation: Ditan-stars 200s linear infinite;
+    background-color: var(--bg-primary); 
     min-height: 100vh;
     overflow-x: hidden;
 }
-
-@keyframes Ditan-stars {
-    from { background-position: 0 0, 40px 60px, 130px 270px, 70px 100px; }
-    to { background-position: -10000px 5000px, -10000px 5000px, -10000px 5000px, -10000px 5000px; }
-}
-
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
@@ -311,23 +297,51 @@ a:hover {
 /* Hero Section */
 .hero {
     min-height: 90vh;
+    padding: var(--space-20) var(--space-6);
+    position: relative;
     display: flex;
     align-items: center;
-    padding: var(--space-20) var(--space-6);
-    background: transparent; /* Use body's animated background */
-    position: relative;
+    justify-content: center;
     overflow: hidden;
+    background-color: var(--gray-900);
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.bg-icon {
+    position: absolute;
+    color: rgba(203, 213, 225, 0.15); /* Faint gray color */
+    animation: float-bg 25s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.5); /* Semi-transparent dark overlay */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    z-index: 2;
 }
 
 .hero-content {
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-16);
-    align-items: center;
+    width: 100%;
     position: relative;
-    z-index: 1;
+    z-index: 3;
+    text-align: center;
 }
 
 .hero-title {
@@ -355,53 +369,19 @@ a:hover {
 .hero-description {
     font-size: var(--font-size-xl);
     color: rgba(255, 255, 255, 0.9);
-    margin-bottom: var(--space-8);
+    margin: 0 auto var(--space-8);
+    max-width: 650px;
     animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
     text-shadow: 0 1px 5px rgba(0,0,0,0.3);
 }
 
 .hero-buttons {
     display: flex;
+    justify-content: center;
     gap: var(--space-4);
     animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
 }
 
-/* Floating Icons Animation */
-.hero-visual {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.floating-icons {
-    position: relative;
-    width: 300px;
-    height: 300px;
-}
-
-.floating-icon {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-2xl);
-    color: white;
-    animation: float 3s ease-in-out infinite;
-    animation-delay: var(--delay);
-}
-
-.floating-icon:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
-.floating-icon:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
-.floating-icon:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
-.floating-icon:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
 
 /* Buttons */
 .btn {
@@ -425,7 +405,7 @@ a:hover {
 }
 
 .btn-primary:hover {
-    background: #d97706;
+    background: #d97706; /* Darker amber */
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
 }
@@ -589,6 +569,7 @@ a:hover {
 .page-title {
     font-size: var(--font-size-4xl);
     margin-bottom: var(--space-4);
+    color: white; /* Explicitly set color for hero sections */
 }
 
 .page-subtitle {
@@ -596,6 +577,7 @@ a:hover {
     opacity: 0.9;
     max-width: 600px;
     margin: 0 auto;
+    color: white; /* Explicitly set color for hero sections */
 }
 
 .contact-content {
@@ -729,7 +711,7 @@ a:hover {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2); /* Updated focus color */
 }
 
 .form-group textarea {
@@ -863,12 +845,12 @@ a:hover {
     }
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
+@keyframes float-bg {
+    from {
+        transform: translate(var(--tx-start), var(--ty-start)) rotate(var(--r-start));
     }
-    50% {
-        transform: translateY(-20px);
+    to {
+        transform: translate(var(--tx-end), var(--ty-end)) rotate(var(--r-end));
     }
 }
 
@@ -899,20 +881,6 @@ a:hover {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .hero-content {
-        grid-template-columns: 1fr;
-        gap: var(--space-12);
-        text-align: center;
-    }
-    
-    .hero-text {
-        order: 2;
-    }
-
-    .hero-visual {
-        order: 1;
-    }
-    
     .contact-content {
         grid-template-columns: 1fr;
         gap: var(--space-12);
@@ -969,17 +937,6 @@ a:hover {
     .services-grid {
         grid-template-columns: 1fr;
         gap: var(--space-6);
-    }
-    
-    .floating-icons {
-        width: 200px;
-        height: 200px;
-    }
-    
-    .floating-icon {
-        width: 60px;
-        height: 60px;
-        font-size: var(--font-size-lg);
     }
     
     .footer-links {
